@@ -4,7 +4,6 @@ namespace Codeception\Module;
 
 use Codeception\Module;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Process\ProcessBuilder;
 
 class DrupalDrush extends Module {
 
@@ -26,30 +25,27 @@ class DrupalDrush extends Module {
      */
     public function getDrush($command, array $arguments = [], $options = [])
     {
-        $args = [
+        $command_line = [
           $this->config['drush'] ?? 'drush',
         ];
 
         if (isset($this->config['drush-alias'])) {
-          $args[] = $this->config['drush-alias'];
+          $command_line[] = $this->config['drush-alias'];
         }
 
         if (isset($this->config['default_args'])) {
           $default_args = explode(' ', $this->config['default_args']);
-          $args = array_merge($args, $default_args);
+          $command_line = array_merge($command_line, $default_args);
         }
 
-        $args[] = '-y';
-        $args[] = $command;
-        $command_args = array_merge($args, $arguments);
+        $command_line[] = '-y';
+        $command_line[] = $command;
+        $command_line = array_merge($command_line, $arguments);
+        $command_line = array_merge($command_line, $options);
 
-        $b = new ProcessBuilder($command_args);
+        $b = new Process($command_line);
 
-        foreach ($options as $option) {
-          $processBuilder->add($option);
-        }
-
-        $this->debugSection('Command', $b->getProcess()->getCommandLine());
-        return $b->getProcess();
+        $this->debugSection('Command', $b->getCommandLine());
+        return $b;
     }
 }
