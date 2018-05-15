@@ -4,7 +4,6 @@ namespace Codeception\Module;
 
 use Codeception\Module;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Process\ProcessBuilder;
 
 class DrupalDrush extends Module {
 
@@ -43,13 +42,9 @@ class DrupalDrush extends Module {
         $args[] = $command;
         $command_args = array_merge($args, $arguments);
 
-        $b = new ProcessBuilder($command_args);
+        $b = new Process($command_args);
 
-        foreach ($options as $option) {
-          $processBuilder->add($option);
-        }
-
-        $this->debugSection('Command', $b->getProcess()->getCommandLine());
-        return $b->getProcess();
+        $this->debugSection('Command', $b->getCommandLine());
+        return $b;
     }
 }
