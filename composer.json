@@ -1,5 +1,5 @@
 {
-    "name": "fenetikm/codeception-drupal-drush",
+    "name": "singularo/codeception-drupal-drush",
     "description": "A Codeception module to allow drush commands to be run during tests.",
     "homepage": "https://github.com/ixis/codeception-drupal-drush",
     "license": "MIT",
@@ -10,6 +10,9 @@
         },
         {
             "name": "Michael Welford"
+        },
+        {
+            "name": "Simon Lindsay"
         }
     ],
     "autoload": {
